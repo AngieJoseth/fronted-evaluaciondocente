@@ -1,0 +1,19 @@
+<div class="container">
+    <form [formGroup]="form" novalidate>
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="card">
+                    <div class="p-grid ui-fluid">
+                        <h1>Observaciones para la aceptacion de documentos de vinculacion</h1>
+                        <div class="p-sm-12">
+                            <textarea formControlName="observaciones" [disabled]="observacionEditable" [rows]="5"
+                                [cols]="30" pInputTextarea
+                                placeholder="Ecriba aqui todas las observaciones a corregir para la aprobaciones del proyecto de vinculación"
+                                autoResize="autoResize"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

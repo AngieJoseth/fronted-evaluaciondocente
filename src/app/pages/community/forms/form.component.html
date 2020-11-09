@@ -1,0 +1,46 @@
+<h1>Nuevo proyecto</h1>
+<div class="card card-w-title">
+    <div class="ui-helper-clearfix">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6">
+                <h1>
+                    <input id="nombreProyecto" type="text" pInputText placeholder="Nombre proyecto">
+                </h1>
+            </div>
+            <div class="p-col-12 p-md-3">
+                <p-dropdown id="estado" [options]="cities" [(ngModel)]="selectedCity4"></p-dropdown>
+            </div>
+            <div class="p-col-12 p-md-3">
+                <p-dropdown id="periodo" [options]="cities" [(ngModel)]="selectedCity4"></p-dropdown>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p-tabView>
+            <p-tabPanel header="Proyecto" leftIcon="pi pi-paperclip">
+                <app-proyecto></app-proyecto>
+            </p-tabPanel>
+            <p-tabPanel header="Estado académico" leftIcon="pi pi-id-card">
+                <app-estado-academico></app-estado-academico>
+            </p-tabPanel>
+            <p-tabPanel header="Institutción beneficiaria" leftIcon="pi pi-briefcase">
+                <app-institucion-beneficiaria></app-institucion-beneficiaria>
+            </p-tabPanel>
+            <p-tabPanel header="Contextualización" leftIcon="pi pi-bars">
+                <app-contextualizacion></app-contextualizacion>
+            </p-tabPanel>
+            <p-tabPanel header="Participantes" leftIcon="pi pi-users">
+                <app-participantes></app-participantes>
+            </p-tabPanel>
+            <p-tabPanel header="Actividades" leftIcon="pi pi-list">
+                <app-actividades></app-actividades>
+            </p-tabPanel>
+            <p-tabPanel header="Cronogramas" leftIcon="pi pi-calendar">
+                <app-cronogramas></app-cronogramas>
+            </p-tabPanel>
+            <p-tabPanel [headerStyle]="{'background-color': 'red'}" *ngIf="observacion" header="Observaciones">
+                <app-observaciones></app-observaciones>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

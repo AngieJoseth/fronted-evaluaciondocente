@@ -1,0 +1,152 @@
+<div class="p-grid ui-fluid">
+    <p-accordion>
+        <p-accordionTab header="Docentes">
+            <form [formGroup]="formDocente" novalidate (ngSubmit)="addPartDocen($event)">
+                <div class="p-grid ui-fluid">
+                    <div class="p-col-12 p-lg-6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-6">
+                                <label for="docente">Teacher:</label>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <label for="cargo">Cargo:</label>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <p-autoComplete formControlName="docente" [suggestions]="suggestions"
+                                    (completeMethod)="completeMethod($event)" [size]="30" [minLength]="1"
+                                    [dropdown]="true">
+                                    <ng-template let-brand pTemplate="item">
+                                        <div class="ui-helper-clearfix">
+                                            <div style="font-size:18px;margin:10px 10px 0 0">{{brand}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <input formControlName="cargo" type="text" pInputText placeholder="Cargo">
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <label for="horarioTrabajo">Horario de trabajo para el proyecto:</label>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <label for="funcionesDocente">Funciones asignadas:</label>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <input formControlName="horarioTrabajo" type="text" pInputText
+                                    placeholder="Horario de trabajo para el proyecto">
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <input formControlName="funcionesDocente" type="text" pInputText
+                                    placeholder="Funciones asignadas">
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                <button pButton type="submit" [disabled]="formDocente.invalid" label="Añadir"
+                                    icon="pi pi-plus"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6">
+                        <div class="p-grid">
+                            <p-table [columns]="tablaDoceParti" [value]="docentesParticipantes" selectionMode="single"
+                                dataKey="vin" [style]="{'margin-bottom':'20px'}" [(selection)]="selectedCar3"
+                                [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    Docentes
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                            {{col.header}}
+                                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td *ngFor="let col of columns">
+                                            <span class="ui-column-title">{{col.header}}</span>
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p-accordionTab>
+        <p-accordionTab header="Estudiantes">
+            <form [formGroup]="formEstud" novalidate (ngSubmit)="addPartEstud($event)">
+                <div class="p-grid ui-fluid">
+                    <div class="p-col-12 p-lg-6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-6">
+                                <label for="estudiante">Student:</label>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <label for="ciEstudiante">CI:</label>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <p-autoComplete formControlName="estudiante" [suggestions]="suggestions"
+                                    (completeMethod)="completeMethod($event)" [size]="30" [minLength]="1"
+                                    [dropdown]="true">
+                                    <ng-template let-brand pTemplate="item">
+                                        <div class="ui-helper-clearfix">
+                                            <div style="font-size:18px;margin:10px 10px 0 0">{{brand}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <input formControlName="ciEstudiante" type="text" pInputText placeholder="CI"
+                                    disabled="disabled">
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <label for="funcionesEstud">Funciones asignadas:</label>
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                                <input formControlName="funcionesEstud" type="text" pInputText
+                                    placeholder="Funciones asignadas">
+                            </div>
+                            <div class="p-col-12 p-md-6">
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                <button pButton type="submit" [disabled]="formEstud.invalid" label="Añadir"
+                                    icon="pi pi-plus"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6">
+                        <div class="p-grid">
+                            <p-table [columns]="tablaEstuParti" [value]="estudiantesParticipantes"
+                                selectionMode="single" dataKey="vin" [style]="{'margin-bottom':'20px'}"
+                                [(selection)]="selectedCar3" [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    Estudiantes
+                                </ng-template>
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                            {{col.header}}
+                                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td *ngFor="let col of columns">
+                                            <span class="ui-column-title">{{col.header}}</span>
+                                            {{rowData[col.field]}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p-accordionTab>
+    </p-accordion>
+</div>

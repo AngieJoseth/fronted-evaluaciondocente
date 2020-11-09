@@ -1,0 +1,209 @@
+<p-steps [model]="itemsInstBene" [(activeIndex)]="activeIndexitemsInstBene" [readonly]="false">
+</p-steps>
+<form [formGroup]="form" novalidate (ngSubmit)="addCoorInstBene($event)">
+    <div class="p-col-12 p-lg-12" *ngIf="activeIndexitemsInstBene==0">
+        <div class="p-col-12 p-lg-12">
+            <div class="p-grid ui-fluid">
+                <div class="p-md-6">
+                    <h1>Logo institutción beneficiaria</h1>
+                </div>
+                <div class="p-md-6">
+                    <div class="p-grid ui-fluid">
+                        <div class="p-md-6">
+                            <h1>Copia de datos de la entidad</h1>
+                        </div>
+                        <div class="p-md-2">
+                            <p-dialog header="Copia de datos de indentidad" [(visible)]="display" modal="true"
+                                showEffect="fade" [style]="{width: '400px'}">
+                                <p style="margin-top: 1em; margin-bottom: 1em">
+                                    Documentos habilitantes de la entidad (cédula del representante legal, papeleta de
+                                    votación, ruc, nombramiento, u otros documentos solicitados)
+                                </p>
+                                <p-footer>
+                                    <button type="button" pButton (click)="display=false" label="Aceptar"></button>
+                                </p-footer>
+                            </p-dialog>
+                            <button pButton type="text" label="Ayuda" icon="pi pi-question-circle"
+                                (click)="display=true"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-6">
+                    <p-fileUpload name="logoEntidad[]" url="backend" (onUpload)="subirLogo($event)" accept="image/*">
+                        <ng-template>
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}}
+                                    bytes
+                                </li>
+                            </ul>
+                        </ng-template>
+                    </p-fileUpload>
+                </div>
+                <div class="p-col-12 p-md-6">
+                    <p-fileUpload name="copiaDatosEntidad[]" url="backend" (onUpload)="subirDatosEntidad($event)"
+                        accept=".pdf">
+                        <ng-template>
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}}
+                                    bytes
+                                </li>
+                            </ul>
+                        </ng-template>
+                    </p-fileUpload>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col-12 p-lg-12" *ngIf="activeIndexitemsInstBene==1">
+        <div class="p-col-12 p-lg-12">
+            <div class="p-grid ui-fluid">
+                <div class="p-col-12 p-md-4">
+                    <label for="nombreInstitucion">Nombre completo organización/institución:</label>
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="provincia">Parroquia:</label>
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="canton">Cantón:</label>
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <input formControlName="nombreInstitucion" type="text" pInputText
+                        placeholder="Nombre completo organización/institución">
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <p-autoComplete formControlName="parroquia" [suggestions]="suggestions"
+                        (completeMethod)="completeMethod($event)" [size]="30" [minLength]="1" [dropdown]="true">
+                        <ng-template let-brand pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                                <div style="font-size:18px;margin:10px 10px 0 0">{{brand}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <p-autoComplete formControlName="canton" [suggestions]="suggestions"
+                        (completeMethod)="completeMethod($event)" [size]="30" [minLength]="1" [dropdown]="true">
+                        <ng-template let-brand pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                                <div style="font-size:18px;margin:10px 10px 0 0">{{brand}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="parroquia">Provincia:</label>
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="ubicacion">Lugar de ubicación:</label>
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="beneficiariosDirectos">Beneficiarios directos:</label>
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <p-autoComplete formControlName="provincia" [suggestions]="suggestions"
+                        (completeMethod)="completeMethod($event)" [size]="30" [minLength]="1" [dropdown]="true">
+                        <ng-template let-brand pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                                <div style="font-size:18px;margin:10px 10px 0 0">{{brand}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <input formControlName="ubicacion" type="text" pInputText placeholder="Lugar de ubicación">
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <input formControlName="beneficiariosDirectos" type="text" pInputText
+                        placeholder="Ej: nombre de la entidad beneficiaria">
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="beneficiariosIndirectos">Beneficiarios indirectos:</label>
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="nombreRepreLegal">Nombre del representante legal:</label>
+                </div>
+                <div class="p-col-12 p-md-4">
+                    <label for="RucRepreLegal">Cédula o RUC del representante legal:</label>
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <input formControlName="beneficiariosIndirectos" type="text" pInputText placeholder="">
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <input formControlName="nombreRepreLegal" type="text" pInputText
+                        placeholder="Nombre del representante legal">
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <input formControlName="RucRepreLegal" type="text" pInputText
+                        placeholder="Cédula o RUC del representante legal">
+                </div>
+                <div class="p-col-12 p-md-12">
+                    <label for="funcion">Funcion:</label>
+                </div>
+                <div class="p-col-2 p-sm-4">
+                    <input formControlName="funcion" type="text" pInputText
+                        placeholder="Ej: madres solteras, personas indigentes">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col-12 p-lg-12" *ngIf="activeIndexitemsInstBene==2">
+        <div class="p-col-12 p-lg-12">
+            <div class="p-grid ui-fluid">
+                <div class="p-lg-6">
+                    <div class="p-col-12">
+                        <label for="nombreCoorInstBen">Nombres y apellidos de coordinador(es) de institución
+                            beneficiaria:</label>
+                    </div>
+                    <div class="p-col-10">
+                        <input formControlName="nombreCoorInstBen" type="text" pInputText
+                            placeholder="Nombres y apellidos de coordinador(es) de institución beneficiaria">
+                    </div>
+                    <div class="p-col-12">
+                        <label for="cargoCoorInstBen">Cargo o funcion de la institución
+                            beneficiaria:</label>
+                    </div>
+                    <div class="p-col-10">
+                        <input formControlName="cargoCoorInstBen" type="text" pInputText
+                            placeholder="Cargo o funcion de la institución beneficiaria">
+                    </div>
+                    <div class="p-col-12">
+                        <label for="funcionCoorComu">Función que cumple en el proyecto de vinculación con la
+                            comunidad:</label>
+                    </div>
+                    <div class="p-col-10">
+                        <input formControlName="funcionCoorComu" type="text" pInputText
+                            placeholder="Ej: supervisor, coordinador, etc">
+                    </div>
+                    <div class="p-col-12 p-md-3">
+                        <button pButton type="submit" [disabled]="form.invalid" label="Añadir"
+                            icon="pi pi-plus"></button>
+                    </div>
+                </div>
+                <div class="p-lg-6">
+                    <p-table [columns]="tablaCoorInstBene" [value]="coordinadoresInstitucion" selectionMode="single"
+                        dataKey="vin" [style]="{'margin-bottom':'20px'}" [(selection)]="selectedCar3"
+                        [responsive]="true">
+                        <ng-template pTemplate="caption">
+                            COORDINADOR(ES) DE INSTITUCIÓN BENEFICIARIA
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

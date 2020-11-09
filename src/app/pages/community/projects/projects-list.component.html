@@ -1,0 +1,74 @@
+<h1>Proyectos</h1>
+<p-dataView #dv [value]="projects" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="brand">
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-6">
+                    <div *ngIf="this.role.code == 'coordinator'" style="position:relative">
+                        <input type="search" pInputText placeholder="Buscar por nombre de proyecto"
+                            (keyup)="dv.filter($event.target.value)">
+                    </div>
+                    <div *ngIf="this.role.code == 'teacher'" style="position:relative">
+                        <button [routerLink]="['/community/forms']" type="button" label="Nuevo proyecto" pButton
+                            icon="pi pi-plus-circle" iconPos="right"></button>
+                    </div>
+                </div>
+                <div class="p-col-12 p-md-6" style="text-align:right">
+                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                </div>
+            </div>
+        </div>
+    </p-header>
+
+    <ng-template let-car pTemplate="listItem">
+        <div class="p-grid" style="padding: 1em; border-bottom: 1px solid #d9d9d9">
+            <div class="p-md-2" style="text-align:center">
+                <img src="assets/demo/images/car/{{car.brand}}.png">
+            </div>
+            <div class="p-md-4 car-details">
+                <div class="p-grid">
+                    <h1>
+                        <div>
+                            <!-- <b>{{car.brand}}</b> -->
+                            <b>Nombre del Proyecto</b>
+                        </div>
+                    </h1>
+                </div>
+            </div>
+            <div class="p-md-2" style="text-align:center">
+                <!-- <b>{{car.color}}</b> --> 
+                <b>Fecha inicio - fin</b>
+            </div>
+            <div class="p-md-2" style="text-align:center">
+                <b>Estado</b>
+            </div>
+            <div class="p-md-2" style="text-align:center">
+                <div *ngIf="state == 'approved' else emptyList" style="position:relative">
+                    <button [routerLink]="" type="button" label="Imprimir" pButton></button>
+                </div>
+                <ng-template #emptyList>
+                    <button [routerLink]="['/community/forms']" type="button" label="Editar" pButton></button>
+                </ng-template>
+            </div>
+        </div>
+
+    </ng-template>
+
+    <ng-template let-car pTemplate="gridItem">
+        <div style="padding:.5em" class="p-col-12 p-md-3">
+            <p-panel [header]="car.brand" [style]="{'text-align':'center'}">
+                <img src="assets/demo/images/car/{{car.brand}}.png">
+                <hr class="ui-widget-content" style="border-top:0">
+                <!-- <div class="car-detail">{{car.color}}</div> -->
+                <div class="car-detail">Fecha inicio - fin</div>
+                <div class="car-detail">Estado</div>
+                <div *ngIf="estadoProyecto == 'aprobado' else emptyList" style="position:relative">
+                    <button [routerLink]="" type="button" label="Imprimir" pButton></button>
+                </div>
+                <ng-template #emptyList>
+                    <button [routerLink]="['/community/forms']" type="button" label="Editar" pButton></button>
+                </ng-template>
+            </p-panel>
+        </div>
+    </ng-template>
+</p-dataView>

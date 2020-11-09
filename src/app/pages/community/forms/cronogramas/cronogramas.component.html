@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="p-grid">
+        <div class="p-col-12">
+            <div class="card">
+                <h1>Subir imagenes del los cronogramas</h1>
+                <p-fileUpload name="Cronograma[]" url="servidor" (onUpload)="onUpload($event)" multiple="multiple"
+                    accept="image/*">
+                    <ng-template>
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes
+                            </li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>

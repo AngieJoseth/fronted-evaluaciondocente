@@ -1,0 +1,34 @@
+export const ROLES = {
+    ADMIN: 'ROL_01',
+    AGENT: 'AGENT',
+    STUDENT: 'STUDENT',
+    TEACHER: 'TEACHER',
+};
+
+export const SYSTEMS = {
+    IGNUG: 'IGNUG'
+};
+
+export const TYPE_MENUS = {
+    MENU: 'MENU',
+    MEGA_MENU: 'MEGA_MENU'
+};
+
+export const TYPE_SEXS = {
+    MALE: 'MALE',
+    FEMALE: 'FEMALE'
+};
+
+export const STATES = {
+    ACTIVE: '1',
+    INACTIVE: '2',
+    DELETED: '3',
+    LOCKED: '4'
+};
+
+export const STATUS = {
+    ACTIVE: '1',
+    INACTIVE: '2',
+    DELETED: '3',
+    LOCKED: '4'
+};

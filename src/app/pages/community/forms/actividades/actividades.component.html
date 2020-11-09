@@ -1,0 +1,38 @@
+<div class="p-grid ui-fluid">
+    <form [formGroup]="form" novalidate>
+        <p-accordion>
+            <p-accordionTab header="Frecuencia de las actividades" [selected]="true">
+                <div class="p-col-2 p-sm-6">
+                    <div class="p-grid">
+                        <p-autoComplete formControlName="frecuenciaActiv" [suggestions]="fraquencyOfActivities"
+                            (completeMethod)="filterAssignedLines($event)" [size]="30" [minLength]="1"
+                            [dropdown]="true">
+                            <ng-template let-brand pTemplate="item">
+                                <div class="ui-helper-clearfix">
+                                    <div style="font-size:18px;margin:10px 10px 0 0">{{brand}}</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab header="Actividad de vinculación">
+                <p-listbox formControlName="actividadesVincu" [options]="bondingActivitiesListbox" [(ngModel)]="bonding"
+                    checkbox="checkbox" filter="filter" multiple="multiple"></p-listbox>
+            </p-accordionTab>
+            <p-accordionTab header="Ejes estratégicos de vinculación con la colectividad">
+                <p-listbox formControlName="ejesEstrategicos" [options]="linkageAxesListbox" [(ngModel)]="linkage"
+                    checkbox="checkbox" filter="filter" multiple="multiple"></p-listbox>
+            </p-accordionTab>
+            <p-accordionTab header="Áreas de aplicación de los proyectos de vinculación">
+                <p-listbox formControlName="areasAplicacion" [options]="researchAreasListbox" [(ngModel)]="research"
+                    checkbox="checkbox" filter="filter" multiple="multiple"></p-listbox>
+            </p-accordionTab>
+            <p-accordionTab header="Descripción general del proyecto">
+                <textarea formControlName="descripGeneral" id="descripcionGeneral" style="width: 1000px;" [rows]="5"
+                    [cols]="30" pInputTextarea placeholder="Descripción general del proyecto"
+                    autoResize="autoResize"></textarea>
+            </p-accordionTab>
+        </p-accordion>
+    </form>
+</div>

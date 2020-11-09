@@ -1,0 +1,67 @@
+<div class="p-grid ui-fluid">
+    <form [formGroup]="form" novalidate class="p-grid">
+        <div class="p-col-6">
+            <label for="carrera">Carrera:</label>
+        </div>
+        <div class="p-col-6">
+            <label for="objeto">Objeto:</label>
+        </div>
+        <div class="p-col-2 p-sm-6">
+            <p-autoComplete formControlName="carrer" [suggestions]="careers"
+                (completeMethod)="filterAssignedLines($event)" [size]="30" [minLength]="1" [dropdown]="true">
+                <ng-template let-brand pTemplate="item">
+                    <div class="ui-helper-clearfix">
+                        <div style="font-size:18px;margin:10px 10px 0 0">{{brand}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+        </div>
+        <div class="p-col-2 p-sm-6">
+            <input formControlName="objeto" type="text" pInputText placeholder="Objeto">
+        </div>
+        <div class="p-col-6">
+            <label for="ciclo">Ciclo:</label>
+        </div>
+        <div class="p-col-6">
+            <label for="modalidad">Modalidad:</label>
+        </div>
+        <div class="p-col-2 p-sm-6">
+            <input formControlName="ciclo" type="text" pInputText placeholder="Ej: Pirmero, Segundo, Tercero">
+        </div>
+        <div class="p-col-2 p-sm-6">
+            <input formControlName="modalidad" disabled type="text" pInputText placeholder="modalidad">
+        </div>
+        <div class="p-col-6">
+            <label for="localizacion">Localizacion:</label>
+        </div>
+        <div class="p-col-6">
+            <label for="plazo">Plazo de ejecucion:</label>
+        </div>
+        <div class="p-col-2 p-sm-6">
+            <textarea formControlName="localizacion" [rows]="5" [cols]="30" pInputTextarea
+                placeholder="Cobertura y localizacion" autoResize="autoResize"></textarea>
+        </div>
+        <div class="p-col-2 p-sm-6">
+            <input formControlName="plazo" disabled="disabled" type="text" pInputText placeholder="Plazo de ejecucion">
+        </div>
+        <div class="p-col-4">
+            <label for="fechaPresentacion">Fecha presentacion:</label>
+        </div>
+        <div class="p-col-4">
+            <label for="fechaInicio">Fecha inicio:</label>
+        </div>
+        <div class="p-col-4">
+            <label for="fechaFinal">Fecha final:</label>
+        </div>
+        <div class="p-col-2 p-sm-4">
+            <p-calendar formControlName="fechaPresentacion" [showIcon]="true" placeholder="Fecha presentacion">
+            </p-calendar>
+        </div>
+        <div class="p-col-2 p-sm-4">
+            <p-calendar formControlName="fechaInicio" [showIcon]="true" placeholder="Fecha inicio"></p-calendar>
+        </div>
+        <div class="p-col-2 p-sm-4">
+            <p-calendar formControlName="fechaFinal" [showIcon]="true" placeholder="Fecha final"></p-calendar>
+        </div>
+    </form>
+</div>
