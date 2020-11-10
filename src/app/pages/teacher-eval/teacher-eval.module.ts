@@ -9,6 +9,7 @@ import { AnswerComponent } from './answer/answer.component';
 
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {TranslateModule} from '@ngx-translate/core';
 
 // PrimeNg
 import {InputTextModule} from 'primeng/inputtext';
@@ -35,6 +36,7 @@ import {TabViewModule} from 'primeng/tabview';
     InputTextareaModule,
     CardModule,
     MessageModule,
+    TranslateModule,
     DropdownModule,
     ReactiveFormsModule,
     ButtonModule,

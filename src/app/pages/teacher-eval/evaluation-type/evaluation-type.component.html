@@ -18,7 +18,7 @@
                         <p-message severity="warn" text="{{'CODE REQUIRED'|translate}}"
                                    *ngIf="formEvaluationType.get('code').hasError('required')"></p-message>
                         <p-message severity="warn" text="Debe ingresar mínimo 5 dígitos"
-                                   *ngIf="formEvaluationType.get('code').hasError('minlength')"></p-message>
+                                   *ngIf="formEvaluationTypee.get('code').hasError('minlength')"></p-message>
                     </div>
                 </div>
 
@@ -34,7 +34,7 @@
                                    *ngIf="formEvaluationType.get('name').hasError('minlength')"></p-message>
                     </div>
                 </div>
-                <!-- <div class="p-xl-12 p-sm-12" style="margin: .5em">
+                <div class="p-xl-12 p-sm-12" style="margin: .5em">
             <span class="ui-float-label">
                 <input id="float-input-percentage" type="text" pInputText formControlName="percentage" size="30">
                 <label for="float-input-percentaje">* {{"PERCENTAGE"|translate}}</label>
@@ -43,17 +43,13 @@
                     </div>
                 </div>
                 <div class="p-xl-12 p-sm-12" style="margin: .5em">
-            <span class="ui-float-label">
-                <input id="float-input-global" type="text" pInputText formControlName="global_percentage" size="30">
-                <label for="float-input-global">* {{GLOBAL PERCENTAGE|translate}}</label>
-            </span>
-                    <div *ngIf="formEvaluationType.get('global_percentage').errors && formEvaluationType.get('global_percentage').touched">
-                        <p-message severity="warn" text="{{'GLOBAL PERCENTAGE REQUIRED'|translate}}"
-                                   *ngIf="formEvaluationType.get('global_percentage').hasError('required')"></p-message>
-                        <p-message severity="warn" text="Debe ingresar mínimo 5 dígitos"
-                                   *ngIf="formEvaluationType.get('global_percentage').hasError('minlength')"></p-message>
-                    </div>
-                </div> -->
+                    <span class="ui-float-label">
+                        <input id="float-input-global_percentage" type="text" pInputText formControlName="global_percentage" size="30">
+                        <label for="float-input-global_percentaje">* {{"GLOBAL_PERCENTAGE"|translate}}</label>
+                    </span>
+                            <div *ngIf="formEvaluationType.get('global_percentage').errors && formEvaluationType.get('global_percentage').touched">
+                            </div>
+                        </div>
 
                 <div class="p-xl-12 p-sm-12" style="margin: .5em" >
             <span class="ui-float-label">
@@ -124,8 +120,8 @@
                                [placeholder]="('SEARCH BY'|translate) + ' ' + ('NAME'|translate)"
                                class="ui-column-filter" style="width: 100%; margin-top: 0;"
                                (input)="dt.filter($event.target.value, col.field, 'contains')">
-                        <input *ngSwitchCase="'global percentage'" pInputText type="text"
-                               [placeholder]="('SEARCH BY'|translate) + ' ' + ('GLOBAL PERCENTAGE'|translate)"
+                        <input *ngSwitchCase="'global_percentage'" pInputText type="text"
+                               [placeholder]="('SEARCH BY'|translate) + ' ' + ('GLOBAL_PERCENTAGE'|translate)"
                                class="ui-column-filter" style="width: 100%; margin-top: 0;"
                                (input)="dt.filter($event.target.value, col.field, 'contains')">
                         <input *ngSwitchCase="'state.name'" pInputText type="text"
@@ -143,7 +139,7 @@
                     <td>{{rowData.name}}</td>
                     <td>{{rowData.percentage}}</td>
                     <td>{{rowData.global_percentage}}</td>
-                    <td>{{rowData.state.name ? rowData.state.name : getStatusName(rowData.state.id)}}</td>
+                    <!-- <td>{{rowData.state.name ? rowData.state.name : getStatusName(rowData.state.id)}}</td> -->
                     <td>
                         <button pButton type="button" class="ui-button-primary" icon="pi pi-user-edit"
                                 style="margin-right: .5em" [pTooltip]="'MODIFY RECORD'|translate"

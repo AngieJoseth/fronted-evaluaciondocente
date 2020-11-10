@@ -34,7 +34,7 @@ import {AppCrudComponent} from './pages/crud/app.crud.component';
                     {
                         path: 'community',
                         loadChildren: () => import('./pages/community/community.module').then(m => m.CommunityModule),
-                        canActivate: [AuthGuard]
+                        // canActivate: [AuthGuard]
                     },
                     {
                         path: 'profile',

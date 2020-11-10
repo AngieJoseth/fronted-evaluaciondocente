@@ -1,9 +1,15 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 // PrimeNG Modules
 import {BreadcrumbModule} from 'primeng/breadcrumb';
@@ -55,6 +61,13 @@ import {KeyFilterModule} from 'primeng/keyfilter';
         FormsModule,
         ReactiveFormsModule,
         AppRoutingModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
         AppCodeModule,
         HttpClientModule,
         BrowserAnimationsModule,
@@ -96,7 +109,7 @@ import {KeyFilterModule} from 'primeng/keyfilter';
         TableDemoComponent
     ],
     providers: [
-        {provide: LocationStrategy, useClass: HashLocationStrategy}, MenuService, BreadcrumbService,ProductService
+        {provide: LocationStrategy, useClass: HashLocationStrategy}, MenuService, BreadcrumbService, ProductService
     ],
     bootstrap: [AppComponent]
 })
