@@ -8,6 +8,7 @@ import { ConfirmationService,  MessageService, SelectItem } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Catalogue } from 'src/app/models/ignug/catalogue';
 
 @Component({
   selector: 'app-evaluation-type',
@@ -16,13 +17,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EvaluationTypeComponent implements OnInit {
   formEvaluationType:FormGroup;
-  evaluationtypes: EvaluationType[];
+  evaluationTypes: EvaluationType[];
   selectedEvaluationtype: EvaluationType;
   validacion: any;
   colsEvaluationType: any[];
   flagEditEvaluationType: boolean;
   headerDialogEvaluationType: string;
   displayFormEvaluationType: boolean;
+  status: Catalogue[];
 
 
   
@@ -34,20 +36,24 @@ export class EvaluationTypeComponent implements OnInit {
     private _messageService: MessageService,
     private _translate: TranslateService,
     private _confirmationService: ConfirmationService,
+    private _ignugService: IgnugService,
+
+
 
     ) {
     
     this._breadcrumbService.setItems([
-      { label: 'evaluationtypes' }
+      { label: 'Evaluationtypes' }
   ]);
-    this.evaluationtypes=[];
-    this.buildFormEvaluationType();
+    this.evaluationTypes=[];
   }
 
   ngOnInit() : void{
       
-    this.getEvaluationType();
+    this.getEvaluationTypes();
     this.setColsEvaluationType();
+    this.buildFormEvaluationType();
+    this.getStatus();
     
   }
   setColsEvaluationType() {
@@ -56,32 +62,45 @@ export class EvaluationTypeComponent implements OnInit {
             { field: 'code', header: this._translate.instant('CODE') },
             { field: 'name', header: this._translate.instant('NAME') },
             { field: 'percentage', header: this._translate.instant('PERCENTAGE') },
-            { field: 'global_percentage', header: this._translate.instant('GLOBAL_PERCENTAGE') },
-            { field: 'state.name', header: this._translate.instant('STATE') },
+            { field: 'global_percentage', header: this._translate.instant('GLOBAL PERCENTAGE') },
+            { field: 'status', header: this._translate.instant('STATUS') },
             
         ];
     });
 
 }
-  getEvaluationType() {
+getStatus(): void {
+  const parameters = '?type=STATUS';
+  this._teacherEvalService.get('catalogues' + parameters).subscribe(
+    response => {
+      this.status= response['data'];
+      console.log(response);
+    });
+}
+  getEvaluationTypes() {
     this._spinnerService.show();
       this._teacherEvalService.get('evaluation_types').subscribe(
         response => {
           this._spinnerService.hide();
-          this.evaluationtypes = response['data'];
-          console.log('esto', this.evaluationtypes);
-          
-        },
-        error => {
-          this._spinnerService.hide();
+          this.evaluationTypes = response['data'];
+          console.log('tipos de evaluacion', this.evaluationTypes);
           this._messageService.add({
-              key: 'tst',
-              severity: 'error',
-              summary: 'Oops! Problemas con el servidor',
-              detail: 'Vuelve a intentar más tarde',
-              life: 5000
+            key: 'tst',
+            severity: 'success',
+            summary: response['msg']['summary'],
+            detail:  response['msg']['detail'],
+            life: 3000
           });
-      });
+        }, error => {
+          this._messageService.add({
+            key: 'tst',
+            severity: 'error',
+            summary: error.error.msg.summary,
+            detail:  error.error.msg.detail,
+            life: 5000
+          });
+    });
+        
   }
   buildFormEvaluationType() {
     this.formEvaluationType = this._fb.group({
@@ -90,7 +109,9 @@ export class EvaluationTypeComponent implements OnInit {
         percentage: ['', Validators.required],
         name: ['', Validators.required],
         global_percentage: ['', Validators.required],
-        state_id: ['', Validators.required]
+        status: ['', Validators.required],
+        evaluationType: ['', Validators.required]
+
     });
   }
   onSubmitEvaluationType(event: Event) {
@@ -113,16 +134,15 @@ selectEvaluationType(evaluationType: EvaluationType): void {
       this.formEvaluationType.controls['name'].setValue(evaluationType.name);
       this.formEvaluationType.controls['percentage'].setValue(evaluationType.percentage);
       this.formEvaluationType.controls['global_percentage'].setValue(evaluationType.global_percentage);
-      this.formEvaluationType.controls['state_id'].setValue(evaluationType.state.id);
-      this._translate.stream('MODIFY RECORD').subscribe(response => {
-          this.headerDialogEvaluationType = response;
-      });
+      this.formEvaluationType.controls['status'].setValue(evaluationType.status);
+      this.flagEditEvaluationType=true;
   } else {
       this.selectedEvaluationtype = {};
       this.formEvaluationType.reset();
-      this._translate.stream('NEW RECORD').subscribe(response => {
-          this.headerDialogEvaluationType  = response;
-      });
+      this.flagEditEvaluationType=false;
+    //   this._translate.stream('NEW RECORD').subscribe(response => {
+    //       this.headerDialogEvaluationType  = response;
+    //   });
   }
   this.displayFormEvaluationType = true;
 }
@@ -132,11 +152,11 @@ createEvaluationType() {
   this._spinnerService.show();
   this._teacherEvalService.post('evaluation_types', {
       evaluationType: this.selectedEvaluationtype,
-      state: this.selectedEvaluationtype.state
+      state: this.selectedEvaluationtype.state,
   }).subscribe(
       response => {
           this.selectedEvaluationtype.id = response['data']['id']
-          this.evaluationtypes.unshift(this.selectedEvaluationtype);
+          this.evaluationTypes.unshift(this.selectedEvaluationtype);
           this._spinnerService.hide();
           this._messageService.add({
               key: 'tst',
@@ -160,14 +180,14 @@ createEvaluationType() {
 updateEvaluationType() {
   this.selectedEvaluationtype = this.castEvaluationType();
   this._spinnerService.show();
-  this._teacherEvalService.update('answers/' + this.selectedEvaluationtype.id, {
+  this._teacherEvalService.update('evaluation_types/' + this.selectedEvaluationtype.id, {
       answer: this.selectedEvaluationtype,
-      state: this.selectedEvaluationtype.state
+      state: this.selectedEvaluationtype.state,
   }).subscribe(
       response => {
-          const indiceUser = this.evaluationtypes
-              .findIndex(element => element.id === this.selectedEvaluationtype.id);
-          this.evaluationtypes.splice(indiceUser, 1, response['data']);
+        //   const indiceUser = this.evaluationtypes
+        //       .findIndex(element => element.id === this.selectedEvaluationtype.id);
+        //   this.evaluationtypes.splice(indiceUser, 1, response['data']);
           this._spinnerService.hide();
           this._messageService.add({
               key: 'tst',
@@ -202,9 +222,9 @@ deleteEvaliationType(evaluationType: EvaluationType) {
           this._spinnerService.show();
           this._teacherEvalService.delete('evaluation_types/' + evaluationType.id).subscribe(
               response => {
-                  const indiceUser = this.evaluationtypes
+                  const indiceUser = this.evaluationTypes
                       .findIndex(element => element.id === evaluationType.id);
-                  this.evaluationtypes.splice(indiceUser, 1);
+                  this.evaluationTypes.splice(indiceUser, 1);
                   this._spinnerService.hide();
                   this._messageService.add({
                       key: 'tst',
@@ -235,7 +255,7 @@ deleteEvaliationType(evaluationType: EvaluationType) {
         name: this.formEvaluationType.controls['name'].value,
         percentage: this.formEvaluationType.controls['percentage'].value,
         global_percentage: this.formEvaluationType.controls['global_percentage'].value,
-        state: { id: this.formEvaluationType.controls['state_id'].value },
+        status:  this.formEvaluationType.controls['status'].value ,
     } as EvaluationType;
 }
 

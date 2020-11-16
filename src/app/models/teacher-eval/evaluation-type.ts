@@ -1,4 +1,5 @@
 import {Catalogue} from '../ignug/catalogue'
+import { State } from '../ignug/state';
 
 export interface EvaluationType {
     id?: number;
@@ -7,8 +8,8 @@ export interface EvaluationType {
     percentage?: number;
     global_percentage?: number;
     parent_code?: Catalogue;
-    state?: Catalogue;
-    
+    status?: Catalogue;
+    state?: State;
    
 
 }
