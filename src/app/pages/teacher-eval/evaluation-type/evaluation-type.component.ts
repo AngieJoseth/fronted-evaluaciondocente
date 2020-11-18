@@ -119,11 +119,17 @@ getStatus(): void {
     if (this.formEvaluationType.valid) {
         if (this.flagEditEvaluationType) {
             this.updateEvaluationType();
+            console.log("b");
+
         } else {
             this.createEvaluationType();
+            console.log("a");
+
         }
     } else {
         this.formEvaluationType.markAllAsTouched();
+        console.log("c");
+
     }
 }
 selectEvaluationType(evaluationType: EvaluationType): void {
@@ -152,7 +158,6 @@ createEvaluationType() {
   this._spinnerService.show();
   this._teacherEvalService.post('evaluation_types', {
       evaluationType: this.selectedEvaluationtype,
-      state: this.selectedEvaluationtype.state,
   }).subscribe(
       response => {
           this.selectedEvaluationtype.id = response['data']['id']
@@ -163,7 +168,7 @@ createEvaluationType() {
               severity: 'success',
               summary: 'Se creó correctamente',
               detail: this.selectedEvaluationtype.name,
-              life: 5000
+              life: 3000
           });
           this.displayFormEvaluationType = false;
       }, error => {
