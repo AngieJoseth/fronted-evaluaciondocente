@@ -69,7 +69,7 @@ export class AnswerComponent implements OnInit {
 
     getTypeStatus(): void {
         const parameters = '?type=STATUS';
-        this._ignugService.get('cataloguesTypes' + parameters).subscribe(
+        this._teacherEvalService.get('catalogues' + parameters).subscribe(
             response => {
                 const typeStatus = response['data']
                 this.status = [{ label: 'Seleccione', value: '' }];
@@ -81,8 +81,8 @@ export class AnswerComponent implements OnInit {
                 this._messageService.add({
                     key: 'tst',
                     severity: 'error',
-                    summary: 'Oops! Problemas al cargar el catálogo estado',
-                    detail: 'Vuelve a intentar más tarde',
+                    summary: error.error.msg.summary,
+                    detail:  error.error.msg.detail,
                     life: 5000
                 });
             });
@@ -99,13 +99,20 @@ export class AnswerComponent implements OnInit {
             response => {
                 this._spinnerService.hide();
                 this.answers = response['data'];
+                this._messageService.add({
+                    key: 'tst',
+                    severity: 'success',
+                    summary: response['msg']['summary'],
+                    detail:  response['msg']['detail'],
+                    life: 3000
+                  });
             }, error => {
                 this._spinnerService.hide();
                 this._messageService.add({
                     key: 'tst',
                     severity: 'error',
-                    summary: 'Oops! Problemas con el servidor',
-                    detail: 'Vuelve a intentar más tarde',
+                    summary: error.error.msg.summary,
+                    detail: error.error.msg.detail,
                     life: 5000
                 });
             });
@@ -170,8 +177,8 @@ export class AnswerComponent implements OnInit {
                 this._messageService.add({
                     key: 'tst',
                     severity: 'success',
-                    summary: 'Se creó correctamente',
-                    detail: this.selectedAnswer.name,
+                    summary: response['msg']['summary'],
+                    detail:  response['msg']['detail'],
                     life: 5000
                 });
                 this.displayFormAnswer = false;
@@ -180,8 +187,8 @@ export class AnswerComponent implements OnInit {
                 this._messageService.add({
                     key: 'tst',
                     severity: 'error',
-                    summary: 'Oops! Problemas con el servidor',
-                    detail: 'Vuelve a intentar más tarde',
+                    summary: error.error.msg.summary,
+                    detail: error.error.msg.detail,
                     life: 5000
                 });
             });
@@ -202,8 +209,8 @@ export class AnswerComponent implements OnInit {
                 this._messageService.add({
                     key: 'tst',
                     severity: 'success',
-                    summary: 'Se actualizó correctamente',
-                    detail: this.selectedAnswer.name,
+                    summary: response['msg']['summary'],
+                    detail:  response['msg']['detail'],
                     life: 5000
                 });
                 this.displayFormAnswer = false;
@@ -212,8 +219,8 @@ export class AnswerComponent implements OnInit {
                 this._messageService.add({
                     key: 'tst',
                     severity: 'error',
-                    summary: 'Oops! Problemas con el servidor',
-                    detail: 'Vuelve a intentar más tarde',
+                    summary: error.error.msg.summary,
+                    detail: error.error.msg.detail,
                     life: 5000
                 });
             });
@@ -239,8 +246,8 @@ export class AnswerComponent implements OnInit {
                         this._messageService.add({
                             key: 'tst',
                             severity: 'success',
-                            summary: 'Se eliminó correctamente',
-                            detail: answer.name,
+                            summary: response['msg']['summary'],
+                            detail:  response['msg']['detail'],
                             life: 5000
                         });
                     }, error => {
@@ -248,8 +255,8 @@ export class AnswerComponent implements OnInit {
                         this._messageService.add({
                             key: 'tst',
                             severity: 'error',
-                            summary: 'Oops! Problemas con el servidor',
-                            detail: 'Vuelve a intentar más tarde',
+                            summary: error.error.msg.summary,
+                            detail: error.error.msg.detail,
                             life: 5000
                         });
                     });

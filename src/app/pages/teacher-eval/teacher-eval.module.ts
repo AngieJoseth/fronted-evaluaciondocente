@@ -25,9 +25,10 @@ import {TableModule} from 'primeng/table';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {TooltipModule} from 'primeng/tooltip';
 import {TabViewModule} from 'primeng/tabview';
+import { SelfEvaluationComponent } from './self-evaluation/self-evaluation.component';
 
 @NgModule({
-  declarations: [EvaluationTypeComponent, QuestionComponent, AnswerComponent, EvaluationComponent],
+  declarations: [EvaluationTypeComponent, QuestionComponent, AnswerComponent, EvaluationComponent, SelfEvaluationComponent],
   imports: [
     CommonModule,
     TeacherEvalRoutingModule,

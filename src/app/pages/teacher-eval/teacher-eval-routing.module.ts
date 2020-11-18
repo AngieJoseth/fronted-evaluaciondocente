@@ -4,6 +4,7 @@ import {AnswerComponent} from './answer/answer.component';
 import {QuestionComponent} from './question/question.component';
 import {EvaluationTypeComponent} from './evaluation-type/evaluation-type.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
+import { SelfEvaluationComponent } from './self-evaluation/self-evaluation.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,11 @@ const routes: Routes = [
   {
     path: 'questions',
     component: QuestionComponent,
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'self-evaluations',
+    component: SelfEvaluationComponent,
     // canActivate: [AuthGuard]
   }
 ];

@@ -32,3 +32,8 @@ export const STATUS = {
     DELETED: '3',
     LOCKED: '4'
 };
+
+export const EVALUATION_TYPES = {
+    SELF_TEACHING: '3',
+    SELF_MANAGEMENT: '4'
+};
