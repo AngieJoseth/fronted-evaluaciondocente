@@ -5,6 +5,7 @@ import {QuestionComponent} from './question/question.component';
 import {EvaluationTypeComponent} from './evaluation-type/evaluation-type.component';
 import {EvaluationComponent} from './evaluation/evaluation.component';
 import { SelfEvaluationComponent } from './self-evaluation/self-evaluation.component';
+import { StudentEvaluationComponent } from './student-evaluation/student-evaluation.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,11 @@ const routes: Routes = [
   {
     path: 'self-evaluations',
     component: SelfEvaluationComponent,
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'student-evaluations',
+    component: StudentEvaluationComponent,
     // canActivate: [AuthGuard]
   }
 ];

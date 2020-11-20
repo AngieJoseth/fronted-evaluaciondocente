@@ -127,8 +127,9 @@ getStatus(): void {
 
         }
     } else {
+      console.log("c");
+
         this.formEvaluationType.markAllAsTouched();
-        console.log("c");
 
     }
 }
@@ -160,7 +161,6 @@ createEvaluationType() {
       evaluationType: this.selectedEvaluationtype,
   }).subscribe(
       response => {
-          this.selectedEvaluationtype.id = response['data']['id']
           this.evaluationTypes.unshift(this.selectedEvaluationtype);
           this._spinnerService.hide();
           this._messageService.add({
@@ -187,7 +187,7 @@ updateEvaluationType() {
   this._spinnerService.show();
   this._teacherEvalService.update('evaluation_types/' + this.selectedEvaluationtype.id, {
       answer: this.selectedEvaluationtype,
-      state: this.selectedEvaluationtype.state,
+      status: this.selectedEvaluationtype.status,
   }).subscribe(
       response => {
         //   const indiceUser = this.evaluationtypes

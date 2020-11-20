@@ -153,7 +153,7 @@ export class SelfEvaluationComponent implements OnInit {
                     severity: 'success',
                     summary: response['msg']['summary'],
                     detail:  response['msg']['detail'],
-                    life: 5000
+                    life: 3000
                 });
             }, error => {
                 this._spinnerService.hide();

@@ -35,5 +35,7 @@ export const STATUS = {
 
 export const EVALUATION_TYPES = {
     SELF_TEACHING: '3',
-    SELF_MANAGEMENT: '4'
+    SELF_MANAGEMENT: '4',
+    STUDENT_TEACHING: '5',
+    STUDENT_MANAGEMENT: '6'
 };
