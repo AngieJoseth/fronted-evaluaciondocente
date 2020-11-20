@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TeacherEvalService } from '../../../services/teacher-eval/teacher-eval.service';
-import { IgnugService } from '../../../services/ignug/ignug.service';
 import { Question } from '../../../models/teacher-eval/question';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../shared/breadcrumb.service';
-
 
 @Component({
   selector: 'app-question',
@@ -29,7 +27,6 @@ export class QuestionComponent implements OnInit {
   status: any[];
 
   constructor(private _teacherEvalService: TeacherEvalService,
-    private _ignugService: IgnugService,
     private _messageService: MessageService,
     private _fb: FormBuilder,
     private _translate: TranslateService,
@@ -48,7 +45,6 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     this.evaluationTypes = [];
     this.types = [];
     this.status = [
@@ -58,10 +54,9 @@ export class QuestionComponent implements OnInit {
     this.getQuestions();
     this.getEvaluationTypes();
     this.getCatalogueTypes();
-    this.getCatalogueStatus();
+    this.getTypeStatus();
     this.setColsQuestion();
   }
-
 
   setColsQuestion() {
     this._translate.stream('CODE').subscribe(response => {
@@ -76,6 +71,7 @@ export class QuestionComponent implements OnInit {
       ];
     });
   }
+
   getEvaluationTypes(): void {
     const parameters = '?name=DOCENCIA';
     this._teacherEvalService.get('evaluation_types' + parameters).subscribe(
@@ -85,7 +81,6 @@ export class QuestionComponent implements OnInit {
         evaluationTypes.forEach(item => {
           this.evaluationTypes.push({ label: item.name, value: item.id });
         });
-        console.log(response);
       }, error => {
         this._messageService.add({
           key: 'tst',
@@ -96,11 +91,12 @@ export class QuestionComponent implements OnInit {
         });
       });
   }
+
   getCatalogueTypes(): void {
     const parameters = '?type=TYPE_QUESTIONS';
-    this._ignugService.get('catalogues' + parameters).subscribe(
+    this._teacherEvalService.get('catalogues' + parameters).subscribe(
       response => {
-        const catalogueTypes = response['data']['catalogues'];
+        const catalogueTypes = response['data'];
         this.types = [{ label: 'Seleccione', value: '' }];
         catalogueTypes.forEach(item => {
           this.types.push({ label: item.name, value: item.id });
@@ -115,11 +111,12 @@ export class QuestionComponent implements OnInit {
         });
       });
   }
-  getCatalogueStatus(): void {
+
+  getTypeStatus(): void {
     const parameters = '?type=STATUS';
-    this._ignugService.get('catalogues' + parameters).subscribe(
+    this._teacherEvalService.get('catalogues' + parameters).subscribe(
       response => {
-        const catalogueStatus = response['data']['catalogues'];
+        const catalogueStatus = response['data'];
         this.status = [{ label: 'Seleccione', value: '' }];
 
         catalogueStatus.forEach(item => {
@@ -142,12 +139,14 @@ export class QuestionComponent implements OnInit {
       return statu.label
     }
   }
+
   getTypeName(id: number) {
     const type = this.types.find(type => type.value === id)
     if (type) {
       return type.label
     }
   }
+  
   getEvaluationTypeName(id: number) {
     const type = this.evaluationTypes.find(type => type.value === id)
     if (type) {
@@ -161,7 +160,6 @@ export class QuestionComponent implements OnInit {
       response => {
         this._spinnerService.hide();
         this.questions = response['data'];
-        console.log('preguntas',this.questions);
       }, error => {
         this._messageService.add({
           key: 'tst',
@@ -188,23 +186,18 @@ export class QuestionComponent implements OnInit {
 
   onSubmitQuestion(event: Event) {
     event.preventDefault();
-    console.log("a");
     if (this.formQuestion.valid) {
       if (this.flagEditQuestion) {
         this.updateQuestion();
-        console.log("b");
       } else {
         this.createQuestion();
-        console.log("c");
       }
     } else {
-      console.log("d");
       this.formQuestion.markAllAsTouched();
     }
   }
 
   selectQuestion(question: Question): void {
-    console.log(question);
     if (question) {
       this.selectedQuestion = question;
       this.formQuestion.controls['id'].setValue(question.id);
@@ -218,7 +211,6 @@ export class QuestionComponent implements OnInit {
 
     } else {
       this.selectedQuestion = {};
-      console.log(question);
       this.formQuestion.reset();
     }
     this.displayFormQuestion = true;
@@ -239,8 +231,8 @@ export class QuestionComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'success',
-          summary: 'Se creó correctamente',
-          detail: this.selectedQuestion.name,
+          summary: response['msg']['summary'],
+          detail:  response['msg']['detail'],
           life: 5000
         });
         this.displayFormQuestion = false;
@@ -249,8 +241,8 @@ export class QuestionComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas con el servidor',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -270,8 +262,8 @@ export class QuestionComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'success',
-          summary: 'Se actualizó correctamente',
-          detail: this.selectedQuestion.name,
+          summary: response['msg']['summary'],
+          detail:  response['msg']['detail'],
           life: 5000
         });
         this.displayFormQuestion = false;
@@ -307,8 +299,8 @@ export class QuestionComponent implements OnInit {
             this._messageService.add({
               key: 'tst',
               severity: 'success',
-              summary: 'Se eliminó correctamente',
-              detail: question.name,
+              summary: response['msg']['summary'],
+              detail:  response['msg']['detail'],
               life: 5000
             });
           }, error => {
