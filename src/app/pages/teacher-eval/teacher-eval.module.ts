@@ -28,9 +28,10 @@ import {TooltipModule} from 'primeng/tooltip';
 import {TabViewModule} from 'primeng/tabview';
 import { SelfEvaluationComponent } from './self-evaluation/self-evaluation.component';
 import { StudentEvaluationComponent } from './student-evaluation/student-evaluation.component';
+import { EvaluationResultComponent } from './evaluation-result/evaluation-result.component';
 
 @NgModule({
-  declarations: [EvaluationTypeComponent, QuestionComponent, AnswerComponent, EvaluationComponent, SelfEvaluationComponent,StudentEvaluationComponent],
+  declarations: [EvaluationTypeComponent, QuestionComponent, AnswerComponent, EvaluationComponent, SelfEvaluationComponent,StudentEvaluationComponent, EvaluationResultComponent],
   imports: [
     CommonModule,
     NgSelectModule,
