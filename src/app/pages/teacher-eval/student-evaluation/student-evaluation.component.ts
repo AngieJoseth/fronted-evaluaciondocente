@@ -7,6 +7,7 @@ import { TeacherEvalService } from '../../../services/teacher-eval/teacher-eval.
 import { TranslateService } from '@ngx-translate/core';
 import { EVALUATION_TYPES } from 'src/environments/catalogues';
 import { StudentEvaluation} from '../../../models/teacher-eval/student-evaluation';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 @Component({
   selector: 'app-student-evaluation',
   templateUrl: './student-evaluation.component.html',
@@ -122,7 +123,7 @@ createStudentEvaluationTeaching() {
               severity: 'success',
               summary: response['msg']['summary'],
               detail:  response['msg']['detail'],
-              life: 5000
+              life: 3000
           });
       }, error => {
           this._spinnerService.hide();
@@ -138,13 +139,15 @@ createStudentEvaluationTeaching() {
 createStudentEvaluationManagement() {
   this.selectedStudentEvaluation = this.castStudentEvaluationManagement();
   this._spinnerService.show();
+  console.log('usuario',this.selectedStudentEvaluation.student);
   this._teacherEvalService.post('student_evaluations', {
       subject_teacher: this.selectedStudentEvaluation.subject_teacher,
       student: this.selectedStudentEvaluation.student,
       answer_questions: this.selectedStudentEvaluation.answer_questions
+      
   }).subscribe(
       response => {
-          this._spinnerService.hide();
+        this._spinnerService.hide();
           this.formStudentEvaluation.reset();
           this._messageService.add({
               key: 'tst',
