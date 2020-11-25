@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { TeacherEvalRoutingModule } from './teacher-eval-routing.module';
 import { EvaluationTypeComponent } from './evaluation-type/evaluation-type.component';
@@ -32,6 +33,7 @@ import { StudentEvaluationComponent } from './student-evaluation/student-evaluat
   declarations: [EvaluationTypeComponent, QuestionComponent, AnswerComponent, EvaluationComponent, SelfEvaluationComponent,StudentEvaluationComponent],
   imports: [
     CommonModule,
+    NgSelectModule,
     TeacherEvalRoutingModule,
     FormsModule,
     InputTextModule,
