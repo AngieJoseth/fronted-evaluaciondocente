@@ -21,7 +21,6 @@ export class QuestionComponent implements OnInit {
   selectedQuestion: Question;
   headerDialogQuestion: string;
   typeIdQuestion: SelectItem[];
-
   evaluationTypes: any[];
   types: any[];
   status: any[];
@@ -35,7 +34,7 @@ export class QuestionComponent implements OnInit {
     private _breadcrumbService: BreadcrumbService,
   ) {
     this._breadcrumbService.setItems([
-      { label: 'Questions' }
+      { label: 'questions' }
     ]);
 
     this.questions = [];
@@ -65,7 +64,7 @@ export class QuestionComponent implements OnInit {
         { field: 'order', header: this._translate.instant('ORDER') },
         { field: 'name', header: this._translate.instant('NAME') },
         { field: 'description', header: this._translate.instant('DESCRIPTION') },
-        { field: 'evaluationType.name', header: this._translate.instant('EVALUATION TYPE') },
+        { field: 'evaluation_type.name', header: this._translate.instant('EVALUATION TYPE') },
         { field: 'type.name', header: this._translate.instant('TYPE') },
         { field: 'status.name', header: this._translate.instant('STATUS') },
       ];
@@ -85,8 +84,8 @@ export class QuestionComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas al cargar el tipos de evaluaciones',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -105,8 +104,8 @@ export class QuestionComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas al cargar el catálogo de preguntas',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -126,33 +125,29 @@ export class QuestionComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas al cargar el catálogo de estados',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
   }
 
-  getStatuName(id: number) {
-    const statu = this.status.find(statu => statu.value === id)
-    if (statu) {
-      return statu.label
-    }
+  getStatusName(id: number) {
+    const status = this.status.find(stat => stat.value === id)
+    return status ? status.label : ""
+  }
+
+  getEvaluationTypeName(id: number) {
+    const type = this.evaluationTypes.find(type => type.value === id)
+    return type ? type.label : ""
   }
 
   getTypeName(id: number) {
     const type = this.types.find(type => type.value === id)
-    if (type) {
-      return type.label
-    }
+    return type ? type.label : ""
   }
-  
-  getEvaluationTypeName(id: number) {
-    const type = this.evaluationTypes.find(type => type.value === id)
-    if (type) {
-      return type.label
-    }
-  }
+
+
 
   getQuestions() {
     this._spinnerService.show();
@@ -160,12 +155,20 @@ export class QuestionComponent implements OnInit {
       response => {
         this._spinnerService.hide();
         this.questions = response['data'];
+        this._messageService.add({
+          key: 'tst',
+          severity: 'success',
+          summary: response['msg']['summary'],
+          detail: response['msg']['detail'],
+          life: 5000
+        });
       }, error => {
+        this._spinnerService.hide();
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas con el servidor',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -226,13 +229,14 @@ export class QuestionComponent implements OnInit {
       status: this.selectedQuestion.status,
     }).subscribe(
       response => {
+        this.selectedQuestion.id = response['data']['id']
         this.questions.unshift(this.selectedQuestion);
         this._spinnerService.hide();
         this._messageService.add({
           key: 'tst',
           severity: 'success',
           summary: response['msg']['summary'],
-          detail:  response['msg']['detail'],
+          detail: response['msg']['detail'],
           life: 5000
         });
         this.displayFormQuestion = false;
@@ -258,12 +262,15 @@ export class QuestionComponent implements OnInit {
       status: this.selectedQuestion.status,
     }).subscribe(
       response => {
+        const indiceUser = this.questions
+          .findIndex(element => element.id === this.selectedQuestion.id);
+        this.questions.splice(indiceUser, 1, response['data']);
         this._spinnerService.hide();
         this._messageService.add({
           key: 'tst',
           severity: 'success',
           summary: response['msg']['summary'],
-          detail:  response['msg']['detail'],
+          detail: response['msg']['detail'],
           life: 5000
         });
         this.displayFormQuestion = false;
@@ -272,8 +279,8 @@ export class QuestionComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas con el servidor',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -300,7 +307,7 @@ export class QuestionComponent implements OnInit {
               key: 'tst',
               severity: 'success',
               summary: response['msg']['summary'],
-              detail:  response['msg']['detail'],
+              detail: response['msg']['detail'],
               life: 5000
             });
           }, error => {
@@ -308,8 +315,8 @@ export class QuestionComponent implements OnInit {
             this._messageService.add({
               key: 'tst',
               severity: 'error',
-              summary: 'Oops! Problemas con el servidor',
-              detail: 'Vuelve a intentar más tarde',
+              summary: error.error.msg.summary,
+              detail: error.error.msg.detail,
               life: 5000
             });
           });

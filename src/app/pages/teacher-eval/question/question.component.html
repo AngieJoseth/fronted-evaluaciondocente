@@ -148,8 +148,12 @@
                             [placeholder]="('SEARCH BY'|translate) + ' ' +('NAME'|translate)" class="ui-column-filter"
                             style="width: 100%; margin-top: 0;"
                             (input)="dt.filter($event.target.value, col.field, 'contains')">
-                        <input *ngSwitchCase="'evaluationType.name'" pInputText type="text"
-                            [placeholder]="('SEARCH BY'|translate) + ' ' +('EVALUATION TYPE'|translate)"
+                        <input *ngSwitchCase="'description'" pInputText type="text"
+                            [placeholder]="('SEARCH BY'|translate) + ' ' + ('DESCRIPTION'|translate)"
+                            class="ui-column-filter" style="width: 100%; margin-top: 0;"
+                            (input)="dt.filter($event.target.value, col.field, 'contains')">
+                        <input *ngSwitchCase="'evaluation_type.name'" pInputText type="text"
+                            [placeholder]="('SEARCH BY'|translate) + ' ' + ('STATUS'|translate)"
                             class="ui-column-filter" style="width: 100%; margin-top: 0;"
                             (input)="dt.filter($event.target.value, col.field, 'contains')">
                         <input *ngSwitchCase="'type.name'" pInputText type="text"
@@ -158,10 +162,6 @@
                             (input)="dt.filter($event.target.value, col.field, 'contains')">
                         <input *ngSwitchCase="'status.name'" pInputText type="text"
                             [placeholder]="('SEARCH BY'|translate) + ' ' + ('STATUS'|translate)"
-                            class="ui-column-filter" style="width: 100%; margin-top: 0;"
-                            (input)="dt.filter($event.target.value, col.field, 'contains')">
-                        <input *ngSwitchCase="'description'" pInputText type="text"
-                            [placeholder]="('SEARCH BY'|translate) + ' ' + ('DESCRIPTION'|translate)"
                             class="ui-column-filter" style="width: 100%; margin-top: 0;"
                             (input)="dt.filter($event.target.value, col.field, 'contains')">
                     </th>
@@ -175,9 +175,9 @@
                     <td>{{rowData.order}}</td>
                     <td>{{rowData.name}}</td>
                     <td>{{rowData.description}}</td>
-                    <td>{{getEvaluationTypeName(rowData.evaluation_type_id)}}</td>
-                    <td>{{getTypeName(rowData.type_id)}}</td>
-                    <td>{{getStatuName(rowData.status_id)}}</td>
+                    <td>{{rowData.evaluation_type.name ? rowData.evaluation_type.name : getEvaluationTypeName(rowData.evaluation_type.id)}}</td>
+                    <td>{{rowData.type.name ? rowData.type.name : getTypeName(rowData.type.id)}}</td>
+                    <td>{{rowData.status.name ? rowData.status.name : getStatusName(rowData.status.id)}}</td>
 
                     <td>
                         <button pButton type="button" class="ui-button-primary" icon="pi pi-user-edit"
