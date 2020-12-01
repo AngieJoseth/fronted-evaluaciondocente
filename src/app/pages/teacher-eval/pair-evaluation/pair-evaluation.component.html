@@ -17,13 +17,13 @@
                         <li for="float-input-question" class="p-xl-12 p-sm-12" style="margin: .5em"
                             *ngFor="let question of teachingArray.controls; index as i">
                             <label>{{questionsTeaching[i].name}}</label>
-                            <span [pTooltip]="questionsTeaching[i].description">❓</span>
                             <span *ngIf="teachingArray.controls[i].errors && teachingArray.controls[i].touched">
                                 <p-message severity="warn" text="{{'QUESTION REQUIRED'|translate}}"
                                     *ngIf="teachingArray.controls[i].hasError('required')"></p-message>
                                 <p-message severity="warn" text="Debe ingresar mínimo 5 dígitos"
                                     *ngIf="teachingArray.controls[i].hasError('minlength')"></p-message>
                             </span>
+                            <div class="p-text-light">{{questionsTeaching[i].description}}</div>
                             <div class="p-xl-12 p-sm-12" style="margin: .5em"
                                 *ngFor="let answer of questionsTeaching[i].answers">
                                 <span class="ui-float-label">
@@ -38,13 +38,13 @@
                         <li for="float-input-question" class="p-xl-12 p-sm-12" style="margin: .5em"
                             *ngFor="let question of managementArray.controls; index as i">
                             <label>{{questionsManagement[i].name}}</label>
-                            <span [pTooltip]="questionsManagement[i].description">❓</span>
                             <span *ngIf="managementArray.controls[i].errors && managementArray.controls[i].touched">
                                 <p-message severity="warn" text="{{'QUESTION REQUIRED'|translate}}"
                                     *ngIf="managementArray.controls[i].hasError('required')"></p-message>
                                 <p-message severity="warn" text="Debe ingresar mínimo 5 dígitos"
                                     *ngIf="managementArray.controls[i].hasError('minlength')"></p-message>
                             </span>
+                            <div class="p-text-light">{{questionsManagement[i].description}}</div>
                             <div class="p-xl-12 p-sm-12" style="margin: .5em"
                                 *ngFor="let answer of questionsManagement[i].answers">
                                 <span class="ui-float-label">

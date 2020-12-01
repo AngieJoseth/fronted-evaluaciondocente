@@ -31,6 +31,7 @@ export class EvaluationComponent implements OnInit {
   detailSelected: any[];
   selectedItems: any[];
   status: any[];
+  selectedEvaluationType: any[];
 
   constructor(private _teacherEvalService: TeacherEvalService,
     private _ignugService: IgnugService,
@@ -78,8 +79,13 @@ export class EvaluationComponent implements OnInit {
       tmp.push({ id: item.value });
     });
     this.selected = [...tmp];
-    
+  }
 
+  onChange($event) {
+    let id = $event.value;
+
+    const percentage = this.evaluationTypes.find(percentage => percentage.value === id)
+    this.selectedEvaluationType = percentage['percentage']
   }
 
   setColsEvaluation() {
@@ -104,9 +110,8 @@ export class EvaluationComponent implements OnInit {
         const evaluationTypes = response['data'];
         this.evaluationTypes = [{ label: 'Seleccione', value: '' }];
         evaluationTypes.forEach(item => {
-          this.evaluationTypes.push({ label: item.name, value: item.id });
+          this.evaluationTypes.push({ label: item.name, value: item.id, percentage: item.percentage });
         });
-       
       }, error => {
         this._messageService.add({
           key: 'tst',
@@ -127,7 +132,6 @@ export class EvaluationComponent implements OnInit {
         teachers.map(item => {
           this.teachers.push({ label: item.user.first_name + ' ' + item.user.second_name + ' ' + item.user.first_lastname + ' ' + item.user.second_lastname, value: item.user.id });
         });
-        
       }, error => {
         this._messageService.add({
           key: 'tst',
@@ -171,17 +175,8 @@ export class EvaluationComponent implements OnInit {
 
   getTeacherName(id: number) {
     const user = this.teachers.find(user => user.value === id)
-      return user ? user.label : ""
+    return user ? user.label : ""
   }
-
-  /*getNameEvaluator(array: []) {
-    const itr = array.map((item: any) => {
-      return item.detail_evaluationable_id;
-    });
-    //let hola = this.teachers.find(user => user.value == itr);  
-    //return hola ? hola.label: ""
-    return itr
-  }*/
 
   getEvaluations() {
     this._spinnerService.show();
@@ -207,6 +202,7 @@ export class EvaluationComponent implements OnInit {
         });
       });
   }
+
   buildFormEvaluation() {
     this.formEvaluation = this._fb.group({
       id: [''],
@@ -215,33 +211,27 @@ export class EvaluationComponent implements OnInit {
       percentage: [''],
       result: [''],
       status_id: ['', Validators.required],
-      evaluators: ['', Validators.required],
+      evaluators: [''],
 
     });
   }
 
   onSubmitEvaluation(event: Event) {
     event.preventDefault();
-   
     if (this.formEvaluation.valid) {
       if (this.flagEditEvaluation) {
         this.updateEvaluation();
-       
       } else if (this.flagCreateDetailEvaluation) {
         this.createDetailEvaluation();
-       
       } else {
         this.createEvaluation();
-        
       }
     } else {
-      
       this.formEvaluation.markAllAsTouched();
     }
   }
 
   selectEvaluation(evaluation: Evaluation): void {
-    
     if (evaluation) {
       this.selectedEvaluation = evaluation;
       this.formEvaluation.controls['id'].setValue(evaluation.id);
@@ -255,7 +245,7 @@ export class EvaluationComponent implements OnInit {
       });
       this.detailSelected = [...selected];
       console.log("iTERACION DE DETAIL OBJ", this.detailSelected);*/
-      
+
       this.formEvaluation.controls['evaluators'].setValue(this.detailSelected);
 
     } else {
@@ -265,7 +255,6 @@ export class EvaluationComponent implements OnInit {
     this.displayFormEvaluation = true;
 
   }
-  
 
   createEvaluation() {
     this.selectedEvaluation = this.castEvaluation();
@@ -293,8 +282,8 @@ export class EvaluationComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas con el servidor',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -323,8 +312,8 @@ export class EvaluationComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas con el servidor',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -356,8 +345,8 @@ export class EvaluationComponent implements OnInit {
         this._messageService.add({
           key: 'tst',
           severity: 'error',
-          summary: 'Oops! Problemas con el servidor',
-          detail: 'Vuelve a intentar más tarde',
+          summary: error.error.msg.summary,
+          detail: error.error.msg.detail,
           life: 5000
         });
       });
@@ -392,8 +381,8 @@ export class EvaluationComponent implements OnInit {
             this._messageService.add({
               key: 'tst',
               severity: 'error',
-              summary: 'Oops! Problemas con el servidor',
-              detail: 'Vuelve a intentar más tarde',
+              summary: error.error.msg.summary,
+              detail: error.error.msg.detail,
               life: 5000
             });
           });
@@ -406,7 +395,7 @@ export class EvaluationComponent implements OnInit {
       id: this.formEvaluation.controls['id'].value,
       teacher: { id: this.formEvaluation.controls['teacher_id'].value },
       evaluation_type: { id: this.formEvaluation.controls['evaluation_type_id'].value },
-      percentage: this.formEvaluation.controls['percentage'].value,
+      percentage: this.selectedEvaluationType,
       result: this.formEvaluation.controls['result'].value,
       evaluators: [{ id: this.formEvaluation.controls['evaluators'].value }],
       status: { id: this.formEvaluation.controls['status_id'].value },

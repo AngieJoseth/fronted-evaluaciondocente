@@ -25,29 +25,13 @@
                         <p-dropdown id="float-input-evaluationType" [options]="evaluationTypes"
                             formControlName="evaluation_type_id" [disabled]="flagEditEvaluation || flagCreateDetailEvaluation"
                             [pTooltip]="flagEditEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate) || flagCreateDetailEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate)"
-                            [style]="{'width':'235px'}"></p-dropdown>
+                            [style]="{'width':'235px'}" (onChange)="onChange($event)"></p-dropdown>
                         <label for="float-input-evaluationType">* {{"SELECT EVALUATION TYPE"|translate}}</label>
                     </span>
                     <div
                         *ngIf="formEvaluation.get('evaluation_type_id').errors && formEvaluation.get('evaluation_type_id').touched">
                         <p-message severity="warn" text="{{'EVALUATION TYPE REQUIRED'|translate}}"
                             *ngIf="formEvaluation.get('evaluation_type_id').hasError('required')"></p-message>
-                    </div>
-                </div>
-
-                <div class="p-xl-12 p-sm-12" style="margin: .5em">
-                    <span class="ui-float-label">
-                        <input id="float-input-percentage" type="text" pInputText formControlName="percentage" 
-                        [readOnly]="flagEditEvaluation || flagCreateDetailEvaluation "
-                        [pTooltip]="flagEditEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate) || flagCreateDetailEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate)"
-                        size="30">
-                        <label for="float-input-percentage">* {{"PERCENTAGE"|translate}}</label>
-                    </span>
-                    <div *ngIf="formEvaluation.get('percentage').errors && formEvaluation.get('percentage').touched">
-                        <p-message severity="warn" text="{{'PERCENTAGE REQUIRED'|translate}}"
-                            *ngIf="formEvaluation.get('percentage').hasError('required')"></p-message>
-                        <p-message severity="warn" text="Debe ingresar mínimo 5 dígitos"
-                            *ngIf="formEvaluation.get('percentage').hasError('minlength')"></p-message>
                     </div>
                 </div>
 

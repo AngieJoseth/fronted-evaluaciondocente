@@ -8,7 +8,7 @@ export interface Evaluation{
     id?: number;
     result?: number;
     evaluation_type?: EvaluationType;
-    percentage?: number;
+    percentage?: EvaluationType;
     school_period?: SchoolPeriodo;
     teacher?: Teacher;
     evaluators?: Teacher[];
