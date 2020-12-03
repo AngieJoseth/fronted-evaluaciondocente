@@ -15,7 +15,7 @@
                         <li for="float-input-question" class="p-xl-12 p-sm-12" style="margin: .5em"
                             *ngFor="let question of answerQuestionsArray.controls; index as i">
                             <label>{{questions[i].name}}</label>
-                            <small style="display:block;">{{questions[i].description}}</small>
+                            <small style="display:block; font-style: italic;">{{questions[i].description}}</small>
                             <div
                                 *ngIf="answerQuestionsArray.controls[i].errors && answerQuestionsArray.controls[i].touched">
                                 <p-message severity="warn" text="{{'QUESTION REQUIRED'|translate}}"

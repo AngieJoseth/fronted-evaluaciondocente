@@ -88,7 +88,7 @@ export class SelfEvaluationComponent implements OnInit {
 
     getEvaluations(): void {
         this._spinnerService.show();
-        this._teacherEvalService.post('types_questions/registered_self_evaluations',{}).subscribe(
+        this._teacherEvalService.post('evaluations/registered_self_evaluations',{}).subscribe(
             response => {
                 this._spinnerService.hide();
 
