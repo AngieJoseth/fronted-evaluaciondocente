@@ -3,6 +3,6 @@ import {Teacher} from '../ignug/models.index'
 
 export interface SelfEvaluation {
     id?: number;
-    teacher?: Teacher;
+    user_id?: number;
     answer_questions?: AnswerQuestion[];
 }
