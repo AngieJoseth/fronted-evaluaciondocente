@@ -7,7 +7,7 @@ import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-
+import { EVALUATION_TYPES } from 'src/environments/catalogues';
 
 @Component({
   selector: 'app-evaluation',
@@ -32,6 +32,7 @@ export class EvaluationComponent implements OnInit {
   selectedItems: any[];
   status: any[];
   selectedEvaluationType: any[];
+ 
 
   constructor(private _teacherEvalService: TeacherEvalService,
     private _ignugService: IgnugService,
@@ -85,7 +86,8 @@ export class EvaluationComponent implements OnInit {
     let id = $event.value;
 
     const percentage = this.evaluationTypes.find(percentage => percentage.value === id)
-    this.selectedEvaluationType = percentage['percentage']
+    this.selectedEvaluationType = percentage['percentage'];
+    console.log(this.selectedEvaluationType)
   }
 
   setColsEvaluation() {
@@ -104,14 +106,16 @@ export class EvaluationComponent implements OnInit {
   }
 
   getEvaluationTypes(): void {
-    const parameters = '?name=DOCENCIA';
-    this._teacherEvalService.get('evaluation_types' + parameters).subscribe(
+    this._spinnerService.show();
+    this._teacherEvalService.get('evaluation_types').subscribe(
       response => {
-        const evaluationTypes = response['data'];
         this.evaluationTypes = [{ label: 'Seleccione', value: '' }];
-        evaluationTypes.forEach(item => {
-          this.evaluationTypes.push({ label: item.name, value: item.id, percentage: item.percentage });
-        });
+        response['data'].map((item: any) => {
+          if (item.code == EVALUATION_TYPES.PAIR_TEACHING || item.code == EVALUATION_TYPES.PAIR_MANAGEMENT) {
+            this.evaluationTypes.push({ label: item.name, value: item.id, percentage: item.percentage });
+          }
+        })
+        console.log(this.evaluationTypes)
       }, error => {
         this._messageService.add({
           key: 'tst',
@@ -201,6 +205,21 @@ export class EvaluationComponent implements OnInit {
           life: 5000
         });
       });
+  }
+
+  getNameEvaluator(array: []) {
+    const itr = array.map((item: any) => {
+      return item.detail_evaluationable_id;
+    });
+    /*let hola = this.teachers.find(user => user.value == itr);  
+    return hola ? hola.label: ""*/
+    let p ="";
+    for(let i of itr){
+      p += this.teachers.find(user => user.value == i);  
+     // return p ? p.label : ""
+      console.log(p)
+    }
+    
   }
 
   buildFormEvaluation() {

@@ -147,8 +147,8 @@
                     <td>{{rowData.school_period_id}}</td>
                     <td>{{rowData.result}}</td>
                     <td>{{rowData.status.name ? rowData.status.name : getStatusName(rowData.status.id)}}</td>
-                    <!--<td>{{getNameEvaluator(rowData.detail_evaluations)}}</td>
-                    <td>{{rowData.detail_evaluations}}</td>-->
+                    <!--<td>{{getNameEvaluator(rowData.detail_evaluations)| json}}</td>-->
+                    <!--<td>{{rowData.detail_evaluations | json}}</td>-->
                     <td>
                     <button pButton type="button" class="ui-button-success" icon="pi pi-user-plus"
                             style="margin-right: .5em" [pTooltip]="'ADD EVALUATORS'|translate"
