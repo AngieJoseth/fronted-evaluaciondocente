@@ -18,13 +18,18 @@
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr>
-                    <td *ngFor="let col of columns">
+<!--                     <td *ngFor="let col of columns">
                         <span class="p-column-title">{{col.header}}</span>
-                        {{rowData[col.field]}}
-                    </td>
-
+                    </td> -->
+                        <!-- <td>{{rowData.teacher.id}}</td> -->
+                        <td>{{rowData.evaluation_type.name}}</td>
+                        <td>{{rowData.school_period.name}}</td>
+                        <td>{{rowData.result}}</td>
+                        <td>{{rowData.percentage}}</td>
+                        <td>{{rowData.status.name}}</td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
 </div>
+<p-toast key="tst"></p-toast>
