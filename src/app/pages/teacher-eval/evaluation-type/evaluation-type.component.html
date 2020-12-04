@@ -19,6 +19,7 @@
                         </div>
                     </div>
                 </div>
+               
                 <div class="p-field">
                     <label for="float-input-name">* {{"NAME"|translate}}</label>
                     <div class="p-xl-12 p-sm-12" style="margin: .5em">
@@ -33,6 +34,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="p-formgrid p-grid">
                     <div class="p-field p-col">
                         <label for="float-input-percentage">* {{"PERCENTAGE"|translate}}</label>
@@ -107,7 +109,7 @@
                     </th>
                     <th style="width: 8em; text-align: center;">
                         <button pButton type="button" icon="pi pi-plus" [pTooltip]="'NEW RECORD'|translate"
-                        class="p-button-info" (click)="selectEvaluationType(null)"></button>
+                        class="p-button-info" (click)="selectEvaluationType(null);flagEditEvaluationType= false;"></button>
                     </th>
                 </tr>
                 <tr>
@@ -148,9 +150,7 @@
                     <td>
                         <button pButton type="button" class="p-button-warning" icon="pi pi-user-edit"
                             style="margin-right: .5em" [pTooltip]="'MODIFY RECORD'|translate"
-                            (click)="selectEvaluationType(rowData)"></button>
-                        <button pButton type="button" class="p-button-danger" [pTooltip]="'DELETE RECORD'|translate"
-                            (click)="deleteEvaliationType(rowData)" icon="pi pi-trash"></button>
+                            (click)="selectEvaluationType(rowData);flagEditEvaluationType= true;"></button>
                     </td>
                 </tr>
             </ng-template>

@@ -116,7 +116,7 @@ getStatus(): void {
   }
   onSubmitEvaluationType(event: Event) {
     event.preventDefault();
-    if (this.formEvaluationType.valid) {
+    if (this.formEvaluationType.valid) {      
         if (this.flagEditEvaluationType) {
             this.updateEvaluationType();
             console.log("b");
@@ -128,8 +128,7 @@ getStatus(): void {
         }
     } else {
       console.log("c");
-
-        this.formEvaluationType.markAllAsTouched();
+      this.formEvaluationType.markAllAsTouched();
 
     }
 }
@@ -142,7 +141,6 @@ selectEvaluationType(evaluationType: EvaluationType): void {
       this.formEvaluationType.controls['percentage'].setValue(evaluationType.percentage);
       this.formEvaluationType.controls['global_percentage'].setValue(evaluationType.global_percentage);
       this.formEvaluationType.controls['status'].setValue(evaluationType.status);
-      this.flagEditEvaluationType=true;
   } else {
       this.selectedEvaluationtype = {};
       this.formEvaluationType.reset();
@@ -159,6 +157,8 @@ createEvaluationType() {
   this._spinnerService.show();
   this._teacherEvalService.post('evaluation_types', {
       evaluationType: this.selectedEvaluationtype,
+      status: this.selectedEvaluationtype.status,
+
   }).subscribe(
       response => {
           this.evaluationTypes.unshift(this.selectedEvaluationtype);
