@@ -31,8 +31,8 @@ export class EvaluationComponent implements OnInit {
   detailSelected: any[];
   selectedItems: any[];
   status: any[];
-  selectedEvaluationType: any[];
- 
+  selectedEvaluationType: number;
+
 
   constructor(private _teacherEvalService: TeacherEvalService,
     private _ignugService: IgnugService,
@@ -99,7 +99,7 @@ export class EvaluationComponent implements OnInit {
         { field: 'schoolPeriod.name', header: this._translate.instant('SCHOOL PERIOD') },
         { field: 'result', header: this._translate.instant('RESULT') },
         { field: 'status.name', header: this._translate.instant('STATUS') },
-        //{ field: 'evaluators', header: this._translate.instant('EVALUETORS') },
+        { field: 'evaluators', header: this._translate.instant('EVALUETORS') },
 
       ];
     });
@@ -182,6 +182,11 @@ export class EvaluationComponent implements OnInit {
     return user ? user.label : ""
   }
 
+  getNameEvaluator(id: number) {
+    const user = this.teachers.find(user => user.value === id)
+    return user ? user.label : ""
+  }
+
   getEvaluations() {
     this._spinnerService.show();
     this._teacherEvalService.get('evaluations').subscribe(
@@ -205,21 +210,6 @@ export class EvaluationComponent implements OnInit {
           life: 5000
         });
       });
-  }
-
-  getNameEvaluator(array: []) {
-    const itr = array.map((item: any) => {
-      return item.detail_evaluationable_id;
-    });
-    /*let hola = this.teachers.find(user => user.value == itr);  
-    return hola ? hola.label: ""*/
-    let p ="";
-    for(let i of itr){
-      p += this.teachers.find(user => user.value == i);  
-     // return p ? p.label : ""
-      console.log(p)
-    }
-    
   }
 
   buildFormEvaluation() {
@@ -251,6 +241,7 @@ export class EvaluationComponent implements OnInit {
   }
 
   selectEvaluation(evaluation: Evaluation): void {
+    console.log(evaluation);
     if (evaluation) {
       this.selectedEvaluation = evaluation;
       this.formEvaluation.controls['id'].setValue(evaluation.id);
