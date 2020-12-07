@@ -36,11 +36,12 @@
                     </div>
                 </div>
 
-                <div class="p-xl-12 p-sm-12" style="margin: .5em"  *ngIf="flagEditEvaluation || flagCreateDetailEvaluation">
+                <div class="p-xl-12 p-sm-12" style="margin: .5em"
+                    *ngIf="flagEditEvaluation || flagCreateDetailEvaluation">
                     <span class="ui-float-label">
                         <input id="float-input-percentage" type="text" pInputText formControlName="percentage" size="30"
-                        [readOnly]="flagEditEvaluation || flagCreateDetailEvaluation"
-                        [pTooltip]="flagEditEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate) || flagCreateDetailEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate)">
+                            [readOnly]="flagEditEvaluation || flagCreateDetailEvaluation"
+                            [pTooltip]="flagEditEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate) || flagCreateDetailEvaluation?('CANNOT BE MODIFIED'|translate):('YOU WILL NOT BE ABLE TO MODIFY LATER'|translate)">
                         <label for="float-input-percentage">* {{"PERCENTAGE"|translate}}</label>
                     </span>
                     <div *ngIf="formEvaluation.get('percentage').errors && formEvaluation.get('percentage').touched">
@@ -65,12 +66,20 @@
 
                 <div class="p-xl-12 p-sm-12" style="margin: .5em"
                     *ngIf="flagEditEvaluation || flagCreateDetailEvaluation">
-                    <label for="float-input-type">* {{"SELECT EVALUATORS"|translate}}</label>
                     <span class="ui-float-label">
-                        <ng-select formControlName="evaluators" [items]="teachers" bindLabel="label" [multiple]="true"
-                            [(ngModel)]="selectedItems" (change)="onSelectAdd($event)">
-                        </ng-select>
-                        <!--<br />Selected : {{selected | json}}-->
+                        <p-autoComplete 
+                        formControlName="evaluators"
+                        [suggestions]="filteredTeachers" 
+                        field="label"
+                        (completeMethod)="filterTeachers($event)" 
+                        [size]="30" [multiple]="true"
+                        (onSelect)="onSelectAdd($event)" 
+                        (onUnselect)="onUnSelectDelete($event)"
+                        [minLength]="1" 
+                        placeholder="SEARCH EVALUATORS.."
+                        [dropdown]="true">
+                        </p-autoComplete>
+                    <label for="float-input-type">* {{"SELECT EVALUATORS"|translate}}</label>
                     </span>
                     <div *ngIf="formEvaluation.get('evaluators').errors && formEvaluation.get('evaluators').touched">
                         <p-message severity="warn" text="{{'EVALUATORS REQUIRED'|translate}}"
@@ -110,7 +119,7 @@
                         {{col.header}}
                         <p-sortIcon [field]="col.field"></p-sortIcon>
                     </th>
-                    <th style="width: 11em; text-align: center;">
+                    <th style="width: 8em; text-align: center;">
                         <button pButton type="button" icon="pi pi-plus" [pTooltip]="'NEW RECORD'|translate"
                             class="ui-button-success"
                             (click)="selectEvaluation(null);flagEditEvaluation = false; flagCreateDetailEvaluation = false;"></button>
@@ -155,8 +164,7 @@
             <ng-template pTemplate="body" let-rowData>
                 <tr>
                     <td>{{rowData.teacher.name ? rowData.teacher.name : getTeacherName(rowData.teacher.id)}}</td>
-                    <td>{{rowData.evaluation_type.name ? rowData.evaluation_type.name :getEvaluationTypeName(rowData.evaluation_type.id)}}
-                    </td>
+                    <td>{{rowData.evaluation_type.name ? rowData.evaluation_type.name :getEvaluationTypeName(rowData.evaluation_type.id)}}</td>
                     <td>{{rowData.percentage}}</td>
                     <td>{{rowData.school_period_id}}</td>
                     <td>{{rowData.result}}</td>

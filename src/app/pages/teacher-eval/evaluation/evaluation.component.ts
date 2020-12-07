@@ -26,13 +26,12 @@ export class EvaluationComponent implements OnInit {
   typeIdEvaluation: SelectItem[];
   evaluationTypes: any[];
   teachers: any[];
-  teacherss: any[];
-  selected: any[];
+  selectedEvaluators: any[];
   detailSelected: any[];
   selectedItems: any[];
   status: any[];
   selectedEvaluationType: number;
-
+  filteredTeachers: any[];
 
   constructor(private _teacherEvalService: TeacherEvalService,
     private _ignugService: IgnugService,
@@ -56,10 +55,10 @@ export class EvaluationComponent implements OnInit {
 
     this.evaluationTypes = [];
     this.teachers = [];
-    this.teacherss = [];
+    this.filteredTeachers = [];
     this.selectedItems = [];
 
-    this.selected = [];
+    this.selectedEvaluators = [];
     this.detailSelected = [];
     this.status = [
       { label: '', value: '' }
@@ -73,21 +72,32 @@ export class EvaluationComponent implements OnInit {
 
   }
 
-  onSelectAdd($event) {
-    let tmp = [];
-    const selection = $event;
-    selection.forEach((item: any) => {
-      tmp.push({ id: item.value });
-    });
-    this.selected = [...tmp];
+  filterTeachers(event): void {
+    this.filteredTeachers = [];
+    for (let i = 0; i < this.teachers.length; i++) {
+      let teacher = this.teachers[i];
+      if (teacher.label.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+        this.filteredTeachers.push(teacher);
+      }
+    }
   }
 
+  onSelectAdd(event) {
+    let search = this.selectedEvaluators.find( item => item.id === event.value)
+    return !search ? this.selectedEvaluators.push({id : event.value}) : ''
+  }
+
+  onUnSelectDelete($event){
+    let result = this.selectedEvaluators.find( item => item.id === $event.value)
+    let position = this.selectedEvaluators.indexOf(result);
+    return position >-1 ? this.selectedEvaluators.splice(position, 1) : 'ID not found'
+  }
+  
   onChange($event) {
     let id = $event.value;
 
     const percentage = this.evaluationTypes.find(percentage => percentage.value === id)
     this.selectedEvaluationType = percentage['percentage'];
-    console.log(this.selectedEvaluationType)
   }
 
   setColsEvaluation() {
@@ -115,7 +125,6 @@ export class EvaluationComponent implements OnInit {
             this.evaluationTypes.push({ label: item.name, value: item.id, percentage: item.percentage });
           }
         })
-        console.log(this.evaluationTypes)
       }, error => {
         this._messageService.add({
           key: 'tst',
@@ -241,7 +250,6 @@ export class EvaluationComponent implements OnInit {
   }
 
   selectEvaluation(evaluation: Evaluation): void {
-    console.log(evaluation);
     if (evaluation) {
       this.selectedEvaluation = evaluation;
       this.formEvaluation.controls['id'].setValue(evaluation.id);
@@ -304,11 +312,12 @@ export class EvaluationComponent implements OnInit {
     this._spinnerService.show();
     this._teacherEvalService.post('detail_evaluations', {
       evaluation: { id: this.selectedEvaluation.id },
-      evaluators: this.selected,
+      evaluators: this.selectedEvaluators,
     }).subscribe(
       response => {
         this._spinnerService.hide();
         this.formEvaluation.reset();
+        this.selectedEvaluators =[];
         this._messageService.add({
           key: 'tst',
           severity: 'success',
@@ -407,7 +416,7 @@ export class EvaluationComponent implements OnInit {
       evaluation_type: { id: this.formEvaluation.controls['evaluation_type_id'].value },
       percentage: this.selectedEvaluationType,
       result: this.formEvaluation.controls['result'].value,
-      evaluators: [{ id: this.formEvaluation.controls['evaluators'].value }],
+      evaluators: [{ id: this.formEvaluation.controls['evaluators'].value}],
       status: { id: this.formEvaluation.controls['status_id'].value },
     } as Evaluation;
   }

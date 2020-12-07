@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 import { TeacherEvalRoutingModule } from './teacher-eval-routing.module';
 import { EvaluationTypeComponent } from './evaluation-type/evaluation-type.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { QuestionComponent } from './question/question.component';
 import { AnswerComponent } from './answer/answer.component';
-
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
@@ -26,6 +24,7 @@ import {TableModule} from 'primeng/table';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {TooltipModule} from 'primeng/tooltip';
 import {TabViewModule} from 'primeng/tabview';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 import { SelfEvaluationComponent } from './self-evaluation/self-evaluation.component';
 import { StudentEvaluationComponent } from './student-evaluation/student-evaluation.component';
 import { EvaluationResultComponent } from './evaluation-result/evaluation-result.component';
@@ -35,7 +34,7 @@ import { PairEvaluationComponent } from './pair-evaluation/pair-evaluation.compo
   declarations: [EvaluationTypeComponent, QuestionComponent, AnswerComponent, EvaluationComponent, SelfEvaluationComponent,StudentEvaluationComponent, EvaluationResultComponent, PairEvaluationComponent],
   imports: [
     CommonModule,
-    NgSelectModule,
+    AutoCompleteModule,
     TeacherEvalRoutingModule,
     FormsModule,
     InputTextModule,
